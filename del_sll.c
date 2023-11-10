@@ -1,70 +1,73 @@
 #include<stdio.h>
-#include<stdlib.h>
+#include <stdlib.h>
 struct node
 {
-        int data;
-        struct node *link;
+int data;
+struct node *link;
 };
 
-void traverse_SLL(struct node *head);
-void del_SLL(struct node *head);
+struct node* del_entire(struct node *head);
+void print_data(struct node *head);
 
-void main()
-
+int main()
 {
- int data;
- struct node *head=(struct node*)malloc(sizeof(struct node));
- head->data=10;
- head->link=NULL;
+int data;
+struct node *head=(struct node*)malloc(sizeof(struct node));
+head->data=10;
+head->link=NULL;
 
- struct node *current=(struct node*)malloc(sizeof(struct node));
- current->data=20;
- current->link=NULL;
+struct node *current=(struct node*)malloc(sizeof(struct node));
+current->data=20;
+current->link=NULL;
 
- head->link=current;
+head->link=current;
 
- current=(struct node*)malloc(sizeof(struct node));
- current->data=30;
- current->link=NULL;
+current=(struct node*)malloc(sizeof(struct node));
+current->data=30;
+current->link=NULL;
 
- head->link->link=current;
- printf("\n before deletion of nodes ");
- traverse_SLL(head);
- printf("\n after deletion of nodes ");
+head->link->link=current;
 
- del_SLL(head);
- traverse_SLL(head);
-
+print_data(head);
+head=del_entire(head);
+print_data(head);
 }
 
-void traverse_SLL(struct node *head)
+struct node* del_entire(struct node *head)
 {
- struct node *temp=head;
- if(head==NULL)
-    printf("No node is attached");
- while(temp!=NULL)
- {
-  printf("%d  -->",temp->data);
-  temp=temp->link;
- }
+struct node *temp=head;
+if(temp==NULL)
+printf("Empty list");
+else if(head->link==NULL)
+{
+head=temp->link;
+free(temp);
+temp=NULL;
 }
 
-void del_SLL(struct node *head)
+else
 {
- struct node *temp=head;
- if(temp==NULL)
-    printf("No node is attached");
- else if(temp->link==NULL)
- {
-  free(temp);
-  head=NULL;
- } 
- while(temp->link->link!=NULL)
- { 
-  temp=temp->link;
- }
- free(temp->link);
- temp->link=NULL;
+while(temp!=NULL)
+{
+head=temp->link;
+//temp=temp->link;
+free(temp);
+temp=head;
+}
+head=NULL;
+}
+return head;
+}
+void print_data(struct node *head)
+{
+struct node *temp=head;
+if(head==NULL)
+printf("\n SLL is Empty");
+while(temp!=NULL)
+{
+printf("%d->",temp->data);
+temp=temp->link;
+}
 }
 
 
